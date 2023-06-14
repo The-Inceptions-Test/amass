@@ -11,12 +11,12 @@ import (
 	"sync"
 	"time"
 
-	amassnet "github.com/owasp-amass/amass/v3/net"
-	"github.com/owasp-amass/amass/v3/net/dns"
-	"github.com/owasp-amass/amass/v3/requests"
 	"github.com/caffix/pipeline"
 	"github.com/caffix/queue"
 	"github.com/caffix/service"
+	amassnet "github.com/owasp-amass/amass/v3/net"
+	"github.com/owasp-amass/amass/v3/net/dns"
+	"github.com/owasp-amass/amass/v3/requests"
 	bf "github.com/tylertreat/BoomFilters"
 )
 
@@ -189,15 +189,13 @@ func (r *enumSource) Next(ctx context.Context) bool {
 			r.markDone()
 			return false
 		case <-t.C:
-			if r.pipeline.DataItemCount() <= 0 &&
-				!r.enum.requestsPending() && r.queue.Len() == 0 {
+			if !r.enum.requestsPending() && r.pipeline.DataItemCount() <= 0 {
 				r.markDone()
 				return false
 			}
 			r.fillQueue()
 			t.Reset(waitForDuration)
 		case <-r.queue.Signal():
-			t.Reset(waitForDuration)
 			return true
 		}
 	}
