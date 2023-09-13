@@ -47,9 +47,10 @@ The amass tool has several subcommands shown below for handling your Internet ex
 
 | Subcommand | Description |
 |------------|-------------|
-| intel | Collect open source intelligence for investigation of the target organization |
-| enum | Perform DNS enumeration and network mapping of systems exposed to the Internet |
-| db | Manage the graph databases storing the enumeration results |
+| [intel](#the-intel-subcommand) | Collect open source intelligence for investigation of the target organization |
+| [enum](#the-enum-subcommand) | Perform DNS enumeration and network mapping of systems exposed to the Internet |
+
+All depreciated subcommands can be found in the [OAM Tools Repository](https://github.com/owasp-amass/oam-tools).
 
 All subcommands have some default global arguments that can be seen below.
 
@@ -166,9 +167,7 @@ If you decide to use an Amass configuration file, it will be automatically disco
 
 ## The Configuration File
 
-Configuration files are provided so users can specify the scope and options with Amass. See the [Example Configuration File](../examples/config.yaml) for more details.
-
-API keys for data sources are stored in a separate file. See the [Example Data Sources File](../examples/datasources.yaml) for more details.
+[Configuration files](../examples/config.yaml) are provided so users can specify the scope and options with Amass. API keys for data sources are stored in a separate file. See the [Configuration Users' Guide](https://github.com/owasp-amass/config/blob/master/user_guide.md) for more detail. 
 
 The location of the configuration file can be specified using the `-config` flag or the `AMASS_CONFIG` environment variable.
 
@@ -183,99 +182,6 @@ Amass automatically tries to discover the configuration file (named `config.yaml
 These are good places for you to put your configuration file.
 
 Note that these locations are based on the [output directory](#the-output-directory). If you use the `-dir` flag, the location where Amass will try to discover the configuration file will change. For example, if you pass in `-dir ./my-out-dir`, Amass will try to discover a configuration file in `./my-out-dir/config.yaml`.
-
-### Default Section
-
-| Option | Description |
-|--------|-------------|
-| mode | Determines which mode the enumeration is performed in: default, passive or active |
-| output_directory | The directory that stores the graph database and other output files |
-| maximum_dns_queries | The maximum number of concurrent DNS queries that can be performed |
-
-### The `resolvers` Section
-
-| Option | Description |
-|--------|-------------|
-| resolver | The IP address of a DNS resolver and used globally by the amass package |
-
-### The `scope` Section
-
-| Option | Description |
-|--------|-------------|
-| address | IP address or range (e.g. a.b.c.10-245) that is in scope |
-| asn | ASN that is in scope |
-| cidr | CIDR (e.g. 192.168.1.0/24) that is in scope |
-| port | Specifies a port to be used when actively pulling TLS certificates or crawling |
-
-#### The `scope.domains` Section
-
-| Option | Description |
-|--------|-------------|
-| domain | A root DNS domain name to be added to the enumeration scope |
-
-#### The `scope.blacklisted` Section
-
-| Option | Description |
-|--------|-------------|
-| subdomain | A DNS subdomain name to be considered out of scope during the enumeration |
-
-### The `graphdbs` Section
-
-#### The `graphdbs.postgres` Section
-
-| Option | Description |
-|--------|-------------|
-| primary | When set to true, the graph database is specified as the primary db |
-| url | URL in the form of "postgres://[username:password@]host[:port]/database-name?sslmode=disable" where Amass will connect to a PostgreSQL database |
-| options | Additional PostgreSQL database options |
-
-### The `bruteforce` Section
-
-| Option | Description |
-|--------|-------------|
-| enabled | When set to true, brute forcing is performed during the enumeration |
-| recursive | When set to true, brute forcing is performed on discovered subdomain names as well |
-| minimum_for_recursive | Number of discoveries made in a subdomain before performing recursive brute forcing |
-| wordlist_file | Path to a custom wordlist file to be used during the brute forcing |
-
-### The `alterations` Section
-
-| Option | Description |
-|--------|-------------|
-| enabled | When set to true, permuting resolved DNS names is performed during the enumeration |
-| edit_distance | Number of times an edit operation will be performed on a name sample during fuzzy label searching |
-| flip_words | When set to true, causes words in DNS names to be exchanged for others in the alteration word list |
-| flip_numbers | When set to true, causes numbers in DNS names to be exchanged for other numbers |
-| add_words | When set to true, causes other words in the alteration word list to be added to resolved DNS names |
-| add_numbers | When set to true, causes numbers to be added and removed from resolved DNS names |
-| wordlist_file | Path to a custom wordlist file that provides additional words to the alteration word list |
-
-### The `data_sources` Section
-
-| Option | Description |
-|--------|-------------|
-| ttl | The number of minutes that the responses of **all** data sources for the target are cached |
-
-#### The `data_sources.SOURCENAME` Section
-
-| Option | Description |
-|--------|-------------|
-| ttl | The number of minutes that the response of the data source for the target is cached |
-
-##### The `data_sources.SOURCENAME.CREDENTIALSETID` Section
-
-| Option | Description |
-|--------|-------------|
-| apikey | The API key to be used when accessing the data source |
-| secret | An additional secret to be used with the API key |
-| username | User for the data source account |
-| password | Valid password for the user identified by the 'username' option |
-
-#### The `data_sources.disabled` Section
-
-| Option | Description |
-|--------|-------------|
-| data_source | One of the Amass data sources that is **not** to be used during the enumeration |
 
 ## The Graph Database
 
@@ -298,5 +204,5 @@ Now you can add the following setting into your Amass `config.yaml` file for sto
 
 ```yaml
 options:
-  database: "postgres://username:password@localhost:5432/assetdb?testing=works"
+  database: "postgres://username:password@localhost:5432/assetdb?options=works"
 ```
