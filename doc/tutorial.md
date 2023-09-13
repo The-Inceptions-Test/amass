@@ -21,9 +21,8 @@ Amass is backed by OWASP, which should provide prestige and confidence in the re
 There are a number of more technical reasons, which we will explain below and demonstrate in more detail later:
 
 -   Comes with 3 subcommands, in other words functions:
-    -   amass intel -- Discover target namespaces for enumerations
-    -   amass enum -- Perform enumerations and network mapping
-    -   amass db -- Manipulate the Amass graph database
+    -   [amass intel](#amass-intel) -- Discover target namespaces for enumerations
+    -   [amass enum](#amass-enum) -- Perform enumerations and network mapping
 -   Amass' subcommands can be used in conjunction, in some cases, which could allow you to create scripts that perform multiple Amass operations.
 -   Supports > 80 sources, such as APIs and websites, at the time of writing as part of its subdomain discovery and information gathering techniques. These can be listed using the following command:
     -   amass enum -list
@@ -166,23 +165,6 @@ Finally, you can always check the Amass log file within the output directory to 
 
 ![OWASP Amass advanced subdomain discovery with hashcat masks](../images/tutorial/amass_logs_example2.png?raw=true)
 
-## Amass DB
-
-You can use this subcommand in order to interact with an Amass graph database, either the default or the one specified with the "-dir" flag.
-
-For example, the below command would list all the names discovered during enumerations you have performed against owasp.org and stored in the "amass4owasp" graph database:
-
-```bash
-$ amass db -dir amass4owasp -names -d owasp.org
-```
-
-Next, with a similar command, you could retrieve the complete output for owasp.org and stored in the "amass4owasp" graph database:
-
-```bash
-$ amass db -dir amass4owasp -d owasp.org -show -ip
-```
-
-You may want to maintain the same Amass output directory for statistical or historical purposes, through which you perform all the subdomain enumeration exercises, as Amass tracking can be used only against the same graph database and output directory.
 
 ## Conclusion
 
